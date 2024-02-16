@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from schemas import UserSchema
 
 data = {
   "users": [
@@ -36,3 +37,8 @@ def get_users(limit: int):
     if limit is not None:
         return data["users"][:limit]
     return data["users"]
+
+@app.post("/users", tags=["users"])
+def add_user(user: UserSchema):
+    data["users"].append(user.model_dump())
+    return user
